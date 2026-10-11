@@ -37,7 +37,7 @@ py -m pip install requests
 
 ### Configuration
 
-Enter your credentials in `config.json`. This file is excluded from Git by `.gitignore`; never publish your password or token.
+The repository includes `config.json` with empty authentication fields. Enter credentials locally, but never commit a password or token or publish a filled-in config.
 
 ```json
 {
@@ -87,8 +87,9 @@ Review `undercut_amount`, `min_price_floor`, and competitor statuses before runn
 ```text
 warframe_market/
 ├── main.py       # Authentication, competitor lookup, and order updates
-├── config.json   # Local credentials and settings; excluded from Git
-├── .gitignore    # Excludes the config and Python cache
+├── config.json   # Project settings with blank authentication fields
+├── config.example.json # Safe example with blank authentication fields
+├── .gitignore    # Excludes the Python cache
 └── README.md     # Russian and English documentation
 ```
 
@@ -128,7 +129,7 @@ py -m pip install requests
 
 ### Настройка
 
-Заполните `config.json` своими данными. Файл исключён из Git через `.gitignore`; не публикуйте пароль или токен.
+В репозитории уже есть `config.json` с пустыми полями авторизации. Укажите данные локально, но не коммитьте пароль или токен и не публикуйте заполненный конфиг.
 
 ```json
 {
@@ -178,8 +179,12 @@ py -m pip install requests
 ```text
 warframe_market/
 ├── main.py       # Авторизация, поиск конкурентов и обновление ордеров
-├── config.json   # Локальные учётные данные и настройки; исключён из Git
-├── .gitignore    # Исключает конфиг и кэш Python
+├── config.json   # Настройки проекта с пустыми полями авторизации
+├── config.example.json # Пример с пустыми полями авторизации
+├── .gitignore    # Исключает кэш Python
 └── README.md     # Документация на русском и английском
 ```
+
+
+
 

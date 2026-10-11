@@ -1,0 +1,19 @@
+{
+  "auth": {
+    "email": "",
+    "password": "",
+    "token": ""
+  },
+  "settings": {
+    "competitor_statuses": [
+      "ingame"
+    ],
+    "undercut_amount": 1,
+    "min_price_floor": 1,
+    "loop_mode": true,
+    "interval_seconds": 300,
+    "platform": "pc",
+    "crossplay": true,
+    "language": "ru"
+  }
+}
