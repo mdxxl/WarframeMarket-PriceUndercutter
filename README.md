@@ -7,8 +7,6 @@
 
 This Python bot monitors your visible sell orders on [Warframe.market](https://warframe.market), compares them with matching offers from other players, and lowers your price when needed.
 
-> **Caution:** the bot changes live order prices through the Warframe.market API. Review your settings and start with a single run before enabling continuous mode.
-
 ### Features
 
 - Loads your profile and active visible sell orders.
@@ -97,8 +95,6 @@ warframe_market/
 ## Русский раздел
 
 Бот получает ваши видимые ордера на продажу, сравнивает их с подходящими предложениями других игроков и при необходимости снижает цену относительно самого дешёвого конкурента.
-
-> **Осторожно:** бот меняет реальные цены ордеров через API Warframe.market. Проверьте настройки и сначала запустите одну проверку без циклического режима.
 
 ### Возможности
 
