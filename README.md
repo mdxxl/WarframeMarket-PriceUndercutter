@@ -1,4 +1,4 @@
-# 🌌 Warframe Market Price Automator
+# 🌌 Warframe Market Price Undercutter
 
 [🇬🇧 English](#english-section) · [🇷🇺 Русский](#русский-раздел)
 

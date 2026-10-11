@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Warframe.market Price Automator Bot
+Warframe Market Price Undercutter
 Автоматически определяет лоты на продажу, находит минимальные цены активных конкурентов
 и снижает цену вашего лота на 1 платину ниже самого дешёвого предложения.
 """
@@ -388,7 +388,7 @@ def load_config(config_path: str = "config.json") -> dict:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Warframe.market Price Automator Bot")
+    parser = argparse.ArgumentParser(description="Warframe Market Price Undercutter")
     parser.add_argument("--config", default="config.json", help="Путь к файлу конфигурации")
     parser.add_argument("--loop", action="store_true", help="Включить циклический режим работы")
     parser.add_argument("--interval", type=int, default=None, help="Интервал обновления в секундах при циклическом режиме")
