@@ -1,180 +1,121 @@
-# 🌌 Warframe Market Price Undercutter
+# Warframe Market Price Undercutter
 
-[🇬🇧 English](#english-section) · [🇷🇺 Русский](#русский-раздел)
+[English](#english) · [Русский](#русский)
 
----
-## English section
+## English
 
-This Python bot monitors your visible sell orders on [Warframe.market](https://warframe.market), compares them with matching offers from other players, and lowers your price when needed.
+A Python script for keeping your sell orders on [Warframe.market](https://warframe.market) below the cheapest matching offer. By default, it checks players who are in game and sets your price 1 platinum lower.
 
-### Features
+It checks visible sell orders and compares mod ranks, Ayatan stars and subtypes when those details are set on your order. If no matching offers are found, it leaves the price alone.
 
-- Loads your profile and active visible sell orders.
-- Matches items using the Warframe.market item catalogue.
-- Filters competitors by status: `ingame` only, or both `ingame` and `online`.
-- Matches mod ranks, Ayatan star counts, and subtypes when those attributes are present on your order.
-- Undercuts the lowest matching offer by a configurable platinum amount, while respecting a minimum price floor.
-- Runs once or repeats checks at a configured interval.
-- Supports email and password authentication or a Bearer/JWT token.
+### Getting started
 
-An order is left unchanged when there are no matching competitors or its price already matches the target.
-
-### Installation
-
-Open a terminal in the project directory and install the dependency:
+You need Python and the `requests` library. Open a terminal in the project folder and run:
 
 ```bash
 python -m pip install requests
 ```
 
-On Windows, use `py` instead of `python` if needed:
+Open `config.json` and fill in `auth.email` and `auth.password`, or use `auth.token` for a Bearer/JWT token. If a token is set, the script uses it. Keep your filled-in config local; don't commit your password or token.
 
-```powershell
-py -m pip install requests
+Then run:
+
+```bash
+python main.py
 ```
 
-### Configuration
+On Windows, you can use `py` instead of `python`.
 
-The repository includes `config.json` with empty authentication fields. Enter credentials locally, but never commit a password or token or publish a filled-in config.
+### Settings
 
-```json
-{
-  "auth": {
-    "email": "",
-    "password": "",
-    "token": ""
-  },
-  "settings": {
-    "competitor_statuses": ["ingame"],
-    "undercut_amount": 1,
-    "min_price_floor": 1,
-    "loop_mode": false,
-    "interval_seconds": 300,
-    "platform": "pc",
-    "crossplay": true,
-    "language": "en"
-  }
-}
-```
+The `settings` section in `config.json` controls pricing and how often checks run:
 
-| Setting | Purpose |
+| Setting | What to put here |
 | --- | --- |
-| `auth.email` / `auth.password` | Warframe.market sign-in credentials. |
-| `auth.token` | Bearer/JWT token; used when provided. |
-| `competitor_statuses` | Competitor statuses: `["ingame"]` or `["ingame", "online"]`. |
-| `undercut_amount` | Platinum amount to subtract from the lowest matching offer. |
-| `min_price_floor` | Minimum price the bot will set. |
-| `loop_mode` | `true` enables repeated checks; `false` runs once. |
-| `interval_seconds` | Delay between checks in loop mode. |
-| `platform`, `crossplay`, `language` | API request settings. |
+| `competitor_statuses` | `["ingame"]` for players in game, or `["ingame", "online"]` to include players online on the site. |
+| `undercut_amount` | How much cheaper your order should be, in platinum. Default: `1`. |
+| `min_price_floor` | The lowest price the script can set. Default: `1`. |
+| `loop_mode` | `false` for one check, `true` to keep checking. |
+| `interval_seconds` | Seconds between checks in loop mode. Default: `300`. |
+| `platform` | Platform sent with API requests. Default: `"pc"`. |
+| `crossplay` | Crossplay setting sent with API requests. Default: `true`. |
+| `language` | Language sent with API requests, such as `"ru"` or `"en"`. Console messages are in Russian. |
 
-### How price updates work
+For example, if the cheapest matching offer is 20 platinum and `undercut_amount` is 1, your order becomes 19 platinum. The price never goes below `min_price_floor`.
 
-1. The bot authenticates and loads your profile.
-2. It loads the item catalogue and your visible sell orders.
-3. For each order, it finds offers for the same item and filters matching competitors.
-4. It calculates the target price as the lowest competitor price minus `undercut_amount`, but never below `min_price_floor`.
-5. If the target differs from your current price, the bot updates the order through the API.
+**The script can also raise prices.** It sets the calculated price whenever it differs from yours, even if yours is already lower. There is no preview step: running it changes orders on your account.
 
-Review `undercut_amount`, `min_price_floor`, and competitor statuses before running the bot, especially in loop mode.
+### Repeated checks
 
-### Project structure
+Check every five minutes:
 
-```text
-warframe_market/
-├── main.py       # Authentication, competitor lookup, and order updates
-├── config.json   # Project settings with blank authentication fields
-├── .gitignore    # Excludes the Python cache
-└── README.md     # Russian and English documentation
+```bash
+python main.py --loop --interval 300
 ```
 
----
+Include players who are online on the site:
 
-## Русский раздел
+```bash
+python main.py --include-online
+```
 
-Бот получает ваши видимые ордера на продажу, сравнивает их с подходящими предложениями других игроков и при необходимости снижает цену относительно самого дешёвого конкурента.
+You can combine these options. Use `--only-ingame` to restrict checks to players in game, or `--config other-config.json` to load a different config. Stop the loop with Ctrl+C.
 
-### Возможности
+## Русский
 
-- Загружает профиль и активные видимые ордера на продажу.
-- Сопоставляет предметы через каталог Warframe.market.
-- Учитывает статус конкурента: только `ingame` или `ingame` и `online`.
-- Сравнивает ранги модов, звёзды Аятан и подтипы, если эти параметры есть у вашего ордера.
-- Снижает цену на заданное количество платины относительно самого дешёвого подходящего предложения, соблюдая минимальный ценовой порог.
-- Работает один раз или повторяет проверку через заданный интервал.
-- Поддерживает вход по email и паролю либо Bearer/JWT-токену.
+Скрипт на Python, чтобы не переставлять цены на [Warframe.market](https://warframe.market) вручную. Он проверяет ваши лоты на продажу и ставит цену ниже самого дешёвого подходящего предложения. По умолчанию — на 1 платину, с учётом только игроков в игре.
 
-Если подходящих конкурентов нет или цена уже соответствует целевой, ордер не меняется.
+В проверку попадают видимые лоты. Для модов и скульптур Аятан учитываются ранг, звёзды и подтип, если они указаны у вашего лота. Если подходящих конкурентов нет, цена остаётся прежней.
 
-### Установка
+### Как запустить
 
-Откройте терминал в папке проекта и установите зависимость:
+Нужны Python и библиотека `requests`. Откройте терминал в папке проекта и выполните:
 
 ```bash
 python -m pip install requests
 ```
 
-В Windows при необходимости используйте `py` вместо `python`:
+В `config.json` заполните `auth.email` и `auth.password` либо укажите Bearer/JWT-токен в `auth.token`. Если токен заполнен, скрипт использует его. Конфиг с вашими данными оставьте на своём компьютере — пароль и токен не нужно отправлять в репозиторий.
 
-```powershell
-py -m pip install requests
+Запуск:
+
+```bash
+python main.py
 ```
 
-### Настройка
+В Windows вместо `python` можно использовать `py`.
 
-В репозитории уже есть `config.json` с пустыми полями авторизации. Укажите данные локально, но не коммитьте пароль или токен и не публикуйте заполненный конфиг.
+### Что настроить
 
-```json
-{
-  "auth": {
-    "email": "",
-    "password": "",
-    "token": ""
-  },
-  "settings": {
-    "competitor_statuses": ["ingame"],
-    "undercut_amount": 1,
-    "min_price_floor": 1,
-    "loop_mode": false,
-    "interval_seconds": 300,
-    "platform": "pc",
-    "crossplay": true,
-    "language": "ru"
-  }
-}
-```
+Параметры цены и повторных проверок находятся в разделе `settings` файла `config.json`:
 
-| Параметр | Назначение |
+| Параметр | Что указать |
 | --- | --- |
-| `auth.email` / `auth.password` | Данные для входа на Warframe.market. |
-| `auth.token` | Bearer/JWT-токен; если указан, используется он. |
-| `competitor_statuses` | Статусы конкурентов: `["ingame"]` или `["ingame", "online"]`. |
-| `undercut_amount` | На сколько платины бот снижает цену относительно самого дешёвого подходящего предложения. |
-| `min_price_floor` | Нижний предел цены. |
-| `loop_mode` | `true` включает постоянные проверки, `false` — одну проверку. |
-| `interval_seconds` | Интервал между проверками в циклическом режиме. |
-| `platform`, `crossplay`, `language` | Параметры запросов к API. |
+| `competitor_statuses` | `["ingame"]` — только игроки в игре; `["ingame", "online"]` — ещё и те, кто онлайн на сайте. |
+| `undercut_amount` | На сколько платины дешевле ставить ваш лот. По умолчанию: `1`. |
+| `min_price_floor` | Минимальная цена, которую может поставить скрипт. По умолчанию: `1`. |
+| `loop_mode` | `false` — проверить один раз, `true` — проверять постоянно. |
+| `interval_seconds` | Пауза между проверками в секундах. По умолчанию: `300`. |
+| `platform` | Платформа для запросов к API. По умолчанию: `"pc"`. |
+| `crossplay` | Настройка кроссплея для запросов к API. По умолчанию: `true`. |
+| `language` | Язык запросов к API, например `"ru"` или `"en"`. Сообщения в консоли остаются на русском. |
 
-### Как работает изменение цены
+Например, конкурент продаёт предмет за 20 платины. При `undercut_amount: 1` скрипт выставит ваш лот за 19. Ниже `min_price_floor` цена не опустится.
 
-1. Бот авторизуется и загружает профиль.
-2. Загружает каталог предметов и ваши видимые ордера на продажу.
-3. Ищет предложения по тому же предмету и отбирает подходящих конкурентов.
-4. Рассчитывает цену: минимальная цена конкурента минус `undercut_amount`, но не ниже `min_price_floor`.
-5. Если цена отличается от текущей, отправляет обновление ордера через API.
+**Скрипт может и поднять цену.** Если ваш лот уже дешевле рассчитанной цены, он всё равно выставит рассчитанную. Предварительного просмотра нет: после запуска цены меняются сразу в вашем аккаунте.
 
-До запуска проверьте `undercut_amount`, `min_price_floor` и статусы конкурентов, особенно при включённом циклическом режиме.
+### Повторные проверки
 
-### Структура проекта
+Проверять цены каждые пять минут:
 
-```text
-warframe_market/
-├── main.py       # Авторизация, поиск конкурентов и обновление ордеров
-├── config.json   # Настройки проекта с пустыми полями авторизации
-├── .gitignore    # Исключает кэш Python
-└── README.md     # Документация на русском и английском
+```bash
+python main.py --loop --interval 300
 ```
 
+Учитывать также игроков со статусом «онлайн на сайте»:
 
+```bash
+python main.py --include-online
+```
 
-
+Эти параметры можно совмещать. `--only-ingame` оставляет только игроков в игре, а `--config other-config.json` позволяет выбрать другой конфиг. Чтобы остановить цикл, нажмите Ctrl+C.
