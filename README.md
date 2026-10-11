@@ -68,8 +68,6 @@ The repository includes `config.json` with empty authentication fields. Enter cr
 | `interval_seconds` | Delay between checks in loop mode. |
 | `platform`, `crossplay`, `language` | API request settings. |
 
-If an earlier copy of the project containing valid credentials was published publicly, change your Warframe.market password.
-
 ### How price updates work
 
 1. The bot authenticates and loads your profile.
@@ -156,8 +154,6 @@ py -m pip install requests
 | `loop_mode` | `true` включает постоянные проверки, `false` — одну проверку. |
 | `interval_seconds` | Интервал между проверками в циклическом режиме. |
 | `platform`, `crossplay`, `language` | Параметры запросов к API. |
-
-Если предыдущая копия проекта с действующими данными входа уже попадала в публичный репозиторий, смените пароль Warframe.market.
 
 ### Как работает изменение цены
 
