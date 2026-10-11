@@ -88,7 +88,6 @@ Review `undercut_amount`, `min_price_floor`, and competitor statuses before runn
 warframe_market/
 ├── main.py       # Authentication, competitor lookup, and order updates
 ├── config.json   # Project settings with blank authentication fields
-├── config.example.json # Safe example with blank authentication fields
 ├── .gitignore    # Excludes the Python cache
 └── README.md     # Russian and English documentation
 ```
@@ -180,7 +179,6 @@ py -m pip install requests
 warframe_market/
 ├── main.py       # Авторизация, поиск конкурентов и обновление ордеров
 ├── config.json   # Настройки проекта с пустыми полями авторизации
-├── config.example.json # Пример с пустыми полями авторизации
 ├── .gitignore    # Исключает кэш Python
 └── README.md     # Документация на русском и английском
 ```
