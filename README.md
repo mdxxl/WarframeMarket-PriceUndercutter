@@ -45,22 +45,6 @@ For example, if the cheapest matching offer is 20 platinum and `undercut_amount`
 
 **The script can also raise prices.** It sets the calculated price whenever it differs from yours, even if yours is already lower. There is no preview step: running it changes orders on your account.
 
-### Repeated checks
-
-Check every five minutes:
-
-```bash
-python main.py --loop --interval 300
-```
-
-Include players who are online on the site:
-
-```bash
-python main.py --include-online
-```
-
-You can combine these options. Use `--only-ingame` to restrict checks to players in game, or `--config other-config.json` to load a different config. Stop the loop with Ctrl+C.
-
 ## Русский
 
 Скрипт на Python, чтобы не переставлять цены на [Warframe.market](https://warframe.market) вручную. Он проверяет ваши лоты на продажу и ставит цену ниже самого дешёвого подходящего предложения. По умолчанию — на 1 платину, с учётом только игроков в игре.
@@ -103,19 +87,3 @@ python main.py
 Например, конкурент продаёт предмет за 20 платины. При `undercut_amount: 1` скрипт выставит ваш лот за 19. Ниже `min_price_floor` цена не опустится.
 
 **Скрипт может и поднять цену.** Если ваш лот уже дешевле рассчитанной цены, он всё равно выставит рассчитанную. Предварительного просмотра нет: после запуска цены меняются сразу в вашем аккаунте.
-
-### Повторные проверки
-
-Проверять цены каждые пять минут:
-
-```bash
-python main.py --loop --interval 300
-```
-
-Учитывать также игроков со статусом «онлайн на сайте»:
-
-```bash
-python main.py --include-online
-```
-
-Эти параметры можно совмещать. `--only-ingame` оставляет только игроков в игре, а `--config other-config.json` позволяет выбрать другой конфиг. Чтобы остановить цикл, нажмите Ctrl+C.
